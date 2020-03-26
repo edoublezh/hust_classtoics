@@ -87,17 +87,17 @@ def trans_ics():
 
 
     for i in range(0,len(copylessons)):
-        if i%2:
-            lessonstatus = eval(copylessons[i]['txt'])
-            a = copylessons[i]['start']
-            starttime = datetime.datetime.strptime(copylessons[i]['start'], "%Y-%m-%d %H:%M")
-            endtime = datetime.datetime.strptime(copylessons[i]['end'], "%Y-%m-%d %H:%M")
-            ics_write.add_event(calendar,
-                                SUMMARY=copylessons[i]['title'],
-                                DTSTART=starttime,
-                                DTEND=endtime,
-                                DESCRIPTION=lessonstatus['JGXM'],
-                                LOCATION=lessonstatus['JSMC'])
+
+        lessonstatus = eval(copylessons[i]['txt'])
+        a = copylessons[i]['start']
+        starttime = datetime.datetime.strptime(copylessons[i]['start'], "%Y-%m-%d %H:%M")
+        endtime = datetime.datetime.strptime(copylessons[i]['end'], "%Y-%m-%d %H:%M")
+        ics_write.add_event(calendar,
+                            SUMMARY=copylessons[i]['title'],
+                            DTSTART=starttime,
+                            DTEND=endtime,
+                            DESCRIPTION=lessonstatus['JGXM'],
+                            LOCATION=lessonstatus['JSMC'])
 
     print(calendar.get_ics_text())
     calendar.save_as_ics_file()
