@@ -7,7 +7,7 @@ import datetime
 import urllib
 import urllib.request
 import json
-
+import collections
 # browser = webdriver.Chrome()
 cookie_send = 'JSESSIONID=r4S2geDFr-1y5jz30EJX0y0alObdfe5vUQPDMbW8QO-bb_84vaws!-454866768;username=U201714656;BIGipServerpool_122.205.11.9_80=2047478282.22811.0000';
 
@@ -72,16 +72,19 @@ def getcourse(begin_time, end_time):
     # print(js)
     with open('lessons.json', 'w') as f:
         f.write(json.dumps(data4, ensure_ascii=False))
-
+    
 
 def trans_ics():
     with open("lessons.json","r") as f:
         lessons=json.loads(f.read())
+        # dict=json.loads()
+    count=dict()
     lesson_num=len(lessons)
     a=eval(lessons[0]['txt'])
-    calendar = ics_write.Calendar(calendar_name="test")
+    calendar = ics_write.Calendar(calendar_name="课程表")
     for i in range(0,lesson_num):
-        if i%2:
+        if lessons[i]['start']+lessons[i]['title'] not in count:
+            count[lessons[i]['start']+lessons[i]['title']]=1
             lessonstatus = eval(lessons[i]['txt'])
             a = lessons[i]['start']
             starttime = datetime.datetime.strptime(lessons[i]['start'], "%Y-%m-%d %H:%M")
@@ -93,7 +96,7 @@ def trans_ics():
                                 DESCRIPTION=lessonstatus['JGXM'],
                                 LOCATION=lessonstatus['JSMC'])
 
-    print(calendar.get_ics_text())
+    # print(calendar.get_ics_text())
     calendar.save_as_ics_file()
 
 

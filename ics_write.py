@@ -18,7 +18,7 @@ class Calendar:
     """
     日历对象
     """
-    def __init__(self,calendar_name="My Calendar"):
+    def __init__(self,calendar_name="课程表"):
         self.__events__ = {}
         self.__event_id__ = 0
         self.calendar_name = calendar_name
@@ -34,7 +34,7 @@ class Calendar:
     def remove_event(self,event_id):
         self.__events__.pop(event_id)
     def get_ics_text(self):
-        self.__calendar_text__ = """BEGIN:VCALENDAR\nPRODID:-//ZHONG_BAI_REN//APPGENIX-SOFTWARE//\nVERSION:2.0\nCALSCALE:GREGORIAN\nMETHOD:PUBLISH\nX-WR-CALNAME:%s\nX-WR-TIMEZONE:null\n"""%self.calendar_name
+        self.__calendar_text__ = """BEGIN:VCALENDAR\nVERSION:2.0\nCALSCALE:GREGORIAN\nMETHOD:PUBLISH\nX-WR-CALNAME:%s\nX-WR-TIMEZONE:null\n"""%self.calendar_name
         for key,value in self.__events__.items():
             self.__calendar_text__ += value.__turn_to_string__()
         self.__calendar_text__ += "END:VCALENDAR"
@@ -65,7 +65,7 @@ def add_event(cal, SUMMARY, DTSTART, DTEND, DESCRIPTION, LOCATION):
         SUMMARY=SUMMARY,
         DTSTART=dt_start,
         DTEND=dt_end,
-        UID="{}_edouble".format(dt_start),
+        UID="{}".format(dt_start),
         SEQUENCE="0",
         CREATED=create_time,
         DESCRIPTION=DESCRIPTION,
