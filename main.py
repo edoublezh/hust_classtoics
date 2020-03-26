@@ -80,14 +80,20 @@ def trans_ics():
     lesson_num=len(lessons)
     a=eval(lessons[0]['txt'])
     calendar = ics_write.Calendar(calendar_name="test")
-    for i in range(0,lesson_num):
+    copylessons=[lessons[0]]
+    for i in range(1,lesson_num):
+        if lessons[i] not in copylessons:
+            copylessons.append(lessons[i])
+
+
+    for i in range(0,len(copylessons)):
         if i%2:
-            lessonstatus = eval(lessons[i]['txt'])
-            a = lessons[i]['start']
-            starttime = datetime.datetime.strptime(lessons[i]['start'], "%Y-%m-%d %H:%M")
-            endtime = datetime.datetime.strptime(lessons[i]['end'], "%Y-%m-%d %H:%M")
+            lessonstatus = eval(copylessons[i]['txt'])
+            a = copylessons[i]['start']
+            starttime = datetime.datetime.strptime(copylessons[i]['start'], "%Y-%m-%d %H:%M")
+            endtime = datetime.datetime.strptime(copylessons[i]['end'], "%Y-%m-%d %H:%M")
             ics_write.add_event(calendar,
-                                SUMMARY=lessons[i]['title'],
+                                SUMMARY=copylessons[i]['title'],
                                 DTSTART=starttime,
                                 DTEND=endtime,
                                 DESCRIPTION=lessonstatus['JGXM'],
@@ -108,6 +114,6 @@ def save(string):
 
 
 if __name__ == '__main__':
-    get_cookie('学号', '密码')
+    get_cookie('学号', '姓名')
     getcourse('2020-02-11', '2020-07-00')
     trans_ics()
